@@ -1,4 +1,9 @@
+import 'package:ashtana/screens/auth_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:ashtana/services/auth_service.dart';
+import 'package:ashtana/services/auth_service.dart';
+import 'dart:convert';
+
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -13,48 +18,104 @@ class AccountScreen extends StatelessWidget {
         child: Column(
           children: [
             // Profile Section
-            Container(
-              padding: const EdgeInsets.all(20),
-              color: Colors.deepPurple[50],
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    radius: 40,
-                    backgroundImage: NetworkImage(
-                      'https://picsum.photos/200/200?random=profile',
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'John Doe',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        const Text(
-                          'john.doe@example.com',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        OutlinedButton(
-                          onPressed: () {},
-                          child: const Text('Edit Profile'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+            FutureBuilder<Map<String, dynamic>?>(
+  future: AuthService.getUserInfo(),
+  builder: (context, snapshot) {
+    final userInfo = snapshot.data;
+    final userName = userInfo?['userName'] ?? 'Guest';
+    final userEmail = userInfo?['email'] ?? 'Not available';
+    final firstName = userInfo?['userFirstName'] ?? '';
+    final lastName = userInfo?['userLastName'] ?? '';
+    final fullName = '$firstName $lastName'.trim();
+    
+    return Container(
+      padding: const EdgeInsets.all(20),
+      color: Colors.deepPurple[50],
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 40,
+            backgroundColor: Colors.deepPurple[100],
+            child: Text(
+              userName.isNotEmpty ? userName[0].toUpperCase() : 'G',
+              style: const TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepPurple,
               ),
             ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (fullName.isNotEmpty)
+                  Text(
+                    fullName,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                Text(
+                  userName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  userEmail,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                OutlinedButton(
+                  onPressed: () {
+                    // Show token info dialog
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Token Info'),
+                        content: AuthService.token != null
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('Token: ${AuthService.token!.substring(0, 30)}...'),
+                                  const SizedBox(height: 10),
+                                  Text('Expired: ${!AuthService.isAuthenticated}'),
+                                  if (AuthService.decodeTokenPayload(AuthService.token!) != null)
+                                    ...AuthService.decodeTokenPayload(AuthService.token!)!
+                                      .entries
+                                      .map((e) => Text('${e.key}: ${e.value}'))
+                                      .toList(),
+                                ],
+                              )
+                            : const Text('No token available'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: const Text('View Token Info'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  },
+),
 
             // Order Status
             Padding(
@@ -145,6 +206,20 @@ class AccountScreen extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+
+            // Add this to your menu items list (before the support section)
+            _buildMenuItem(
+              icon: Icons.logout,
+              title: 'Logout',
+              subtitle: 'Sign out of your account',
+              onTap: () async {
+                await AuthService.clearToken();
+                // Navigate back to auth screen
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const AuthScreen()),
+                );
+              },
             ),
 
             // Support Section

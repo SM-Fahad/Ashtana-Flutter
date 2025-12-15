@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
             // Banner Section
             Container(
               height: 200,
+              width: double.infinity,
               margin: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.deepPurple[100],
@@ -54,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Summer Collection',
+                        'Winter Collection',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -76,66 +77,66 @@ class HomeScreen extends StatelessWidget {
             ),
 
             // Categories Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Categories',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('See All'),
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 16),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       const Text(
+            //         'Categories',
+            //         style: TextStyle(
+            //           fontSize: 18,
+            //           fontWeight: FontWeight.bold,
+            //         ),
+            //       ),
+            //       TextButton(
+            //         onPressed: () {},
+            //         child: const Text('See All'),
+            //       ),
+            //     ],
+            //   ),
+            // ),
 
-            SizedBox(
-              height: 100,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemBuilder: (context, index) {
-                  List<Map<String, dynamic>> categories = [
-                    {'icon': Icons.phone_android, 'name': 'Electronics'},
-                    {'icon': Icons.directions_car, 'name': 'Automotive'},
-                    {'icon': Icons.home, 'name': 'Home'},
-                    {'icon': Icons.checkroom, 'name': 'Fashion'},
-                    {'icon': Icons.sports_soccer, 'name': 'Sports'},
-                  ];
-                  return Container(
-                    width: 100,
-                    margin: const EdgeInsets.only(right: 12),
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.deepPurple[50],
-                          child: Icon(
-                            categories[index]['icon'],
-                            color: Colors.deepPurple,
-                            size: 30,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          categories[index]['name'],
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
+            // SizedBox(
+            //   height: 100,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: 3,
+            //     padding: const EdgeInsets.symmetric(horizontal: 0),
+            //     itemBuilder: (context, index) {
+            //       List<Map<String, dynamic>> categories = [
+            //         {'icon': Icons.phone_android, 'name': 'Electronics'},
+            //         {'icon': Icons.directions_car, 'name': 'Automotive'},
+            //         {'icon': Icons.home, 'name': 'Home'},
+            //         {'icon': Icons.checkroom, 'name': 'Fashion'},
+            //         {'icon': Icons.sports_soccer, 'name': 'Sports'},
+            //       ];
+            //       return Container(
+            //         width: 100,
+            //         margin: const EdgeInsets.only(right: 12),
+            //         child: Column(
+            //           children: [
+            //             CircleAvatar(
+            //               radius: 30,
+            //               backgroundColor: Colors.deepPurple[50],
+            //               child: Icon(
+            //                 categories[index]['icon'],
+            //                 color: Colors.deepPurple,
+            //                 size: 30,
+            //               ),
+            //             ),
+            //             const SizedBox(height: 8),
+            //             Text(
+            //               categories[index]['name'],
+            //               textAlign: TextAlign.center,
+            //               style: const TextStyle(fontSize: 12),
+            //             ),
+            //           ],
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
 
             const SizedBox(height: 20),
 
@@ -170,15 +171,15 @@ class HomeScreen extends StatelessWidget {
                 mainAxisSpacing: 10,
               ),
               itemCount: 6,
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(5),
               itemBuilder: (context, index) {
                 return Card(
                   elevation: 2,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(9.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
