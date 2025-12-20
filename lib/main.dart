@@ -145,6 +145,7 @@
 import 'package:flutter/material.dart';
 import 'package:ashtana/services/auth_service.dart';
 import 'package:ashtana/screens/main_screen.dart';
+import 'package:ashtana/services/database_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -152,8 +153,10 @@ void main() async {
   // Initialize auth service
   await AuthService.init();
   
-  // Check auth status
-  print('🔐 App started - User authenticated: ${AuthService.isAuthenticated}');
+  // Initialize database
+  await DatabaseService.instance.database;
+  
+  print('✅ App initialized - Database ready');
   
   runApp(const MyApp());
 }

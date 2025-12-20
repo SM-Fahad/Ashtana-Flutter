@@ -1,3 +1,4 @@
+import 'package:ashtana/screens/account_screen.dart';
 import 'package:ashtana/screens/guest_account_screen.dart';
 import 'package:ashtana/screens/guest_cart_screen.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +7,10 @@ import 'package:ashtana/screens/home_screen.dart';
 import 'package:ashtana/screens/categories_screen.dart';
 import 'package:ashtana/screens/cart_screen.dart';
 import 'package:ashtana/screens/favorites_screen.dart';
-import 'package:ashtana/screens/account_screen.dart';
+
 import 'package:ashtana/screens/auth_screen.dart';
+import 'package:ashtana/services/database_service.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
